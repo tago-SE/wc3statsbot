@@ -1,0 +1,26 @@
+{
+  "name": "wc3stats-discordbot",
+  "version": "1.0.0",
+  "description": "npm init",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js"
+  },
+  "keywords": [
+    "discordbot"
+  ],
+  "author": "Tiago Redaelli",
+  "license": "ISC",
+  "dependencies": {
+    "dateformat": "^3.0.3",
+    "discord.js": "^11.5.1",
+    "djs-commands": "^1.2.2",
+    "node-fetch": "^2.6.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0"
+  },
+  "devDependencies": {}
+}
