@@ -1,8 +1,7 @@
 const wc3stats = require("../controllers/Wc3Stats");
 const config = require('../config.json');
 const Discord = require('discord.js');
-
-var userLimit = 15;
+const userLimit = 15;
 
 module.exports = class ScoreboardCommand {
 
@@ -44,7 +43,7 @@ module.exports = class ScoreboardCommand {
                     ratings += user.rating + "\n"; 
                 }
                 if (names.length > 0) {
-                    
+
                     for (var i = 0; i < args.length; i++) {
                         args[i] = args[i].charAt(0).toUpperCase() + args[i].substring(1); 
                     }
