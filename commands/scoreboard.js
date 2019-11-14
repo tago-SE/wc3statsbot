@@ -14,43 +14,52 @@ module.exports = class ScoreboardCommand {
     }
 
     run(client, msg, args) {
+
         var names = "";
         var winLossRatios = "";
         var ratings = "";
         var first = 0;
-        if (args.length > 0 && !isNaN(args[0])) {
-            first = parseInt(args[0]);
-            if (first < 0) first = 0;
+
+
+        if (args.length > 0 && !isNaN(args[args.length - 1])) {
+            first = parseInt(args[args.length - 1]);
+            args.pop();
+            if (first < 0) 
+                first = 0;
         }
-    
+        var mapName = config.map.name;    // default map name
+        if (args.length > 0) {
+            mapName = args.join(' ');
+        } 
         (async () => {            
             try {
-                var users = await wc3stats.fetchTopRankedUsersByMap(config.map.name, first + userLimit);
+                var users = await wc3stats.fetchTopRankedUsersByMap(mapName, first + userLimit);
+                if (users === "No results found.") {
+                    return;
+                }
                 for (var i = first; i < users.length; i++) {
                     var user = users[i];
                     names += (i + 1) + ". [" + user.name + "](https://wc3stats.com/players/" + user.name  + ")\n";
-                    
                     winLossRatios += user.wins + " - " + user.losses + "\n";
                     ratings += user.rating + "\n"; 
                 }
                 if (names.length > 0) {
-                    var embed = ScoreboardCommand.getEmbededScoreboard(names, winLossRatios, ratings);  
+                    
+                    for (var i = 0; i < args.length; i++) {
+                        args[i] = args[i].charAt(0).toUpperCase() + args[i].substring(1); 
+                    }
+                    var title = args.join(' ');
+                    var embed = new Discord.RichEmbed()
+                        .setTitle(title)
+                        .setColor(config.embedcolor)
+                        .addField("Player", names, true)
+                        .addField("Score", winLossRatios, true)
+                        .addField("Rating", ratings, true); 
                     msg.channel.send(embed);
                 }
             } catch (err) {
                 console.log(err);
             }
         })();
-    }
-
-    static getEmbededScoreboard(names, winLossRatios, ratings) {
-        var title = config.map.name;
-        var embed = new Discord.RichEmbed()
-        .setTitle(title)
-        .setColor(config.embedcolor)
-        .addField("Player", names, true)
-        .addField("Score", winLossRatios, true)
-        .addField("Rating", ratings, true);
-        return embed;
     }
 }

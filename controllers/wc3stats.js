@@ -33,7 +33,8 @@ module.exports = class UsersController {
         }
         mapRequest += mapArgs[mapArgs.length -1];
         // 
-        const url = "https://api.wc3stats.com/leaderboard&map=" + mapRequest + "&ladder=Public&season=Season%201&round=Global&sorzt=rating&order=desc&page=1&limit=" + numUsers;
+        const url = "https://api.wc3stats.com/leaderboard&map=" + mapRequest + "&ladder=Public&season=Season%201&round=Global&sort=rank&order=asc&page=1&limit=" + numUsers;
+       
         return new Promise(function (resolve, reject) {
             fetch(url)
             .then(res => res.json())
