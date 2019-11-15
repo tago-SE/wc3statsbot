@@ -18,8 +18,8 @@ module.exports = class CommandsCommand {
         const files = fs.readdirSync(folder);
         files.filter(f => fs.statSync(folder + f).isDirectory())
             .forEach(nested => fs.readdirSync(folder + nested).forEach(f => files.push(nested + '/' + f)));
+        
         const jsFiles = files.filter(f => f.endsWith('.js'));
-
         if (files.length <= 0) 
             throw new Error('No commands to load!');
 
@@ -27,23 +27,16 @@ module.exports = class CommandsCommand {
         const prefix = config.prefix;
 
         var showAdminCommands = args.length > 0 && args[0].toLowerCase() == "-a";
-        if (showAdminCommands) {
-            
-        }
 
         for (const f of jsFiles) {
             const file = require(folder + f);
             const cmd = new file();
-          
             if ((typeof cmd.adminCommand === 'undefined' && !showAdminCommands) || // Only show public commands
                 (typeof cmd.adminCommand !== 'undefined' && cmd.adminCommand && showAdminCommands)) { // Only show admin commands
                     embed.addField(prefix + cmd.usage, cmd.desc + "\n");
-                }
+            }   
         }
-
         msg.delete();
-
-        
         msg.channel.send(embed);
 
     }

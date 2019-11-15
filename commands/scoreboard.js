@@ -19,7 +19,6 @@ module.exports = class ScoreboardCommand {
         var ratings = "";
         var first = 0;
 
-
         if (args.length > 0 && !isNaN(args[args.length - 1])) {
             first = parseInt(args[args.length - 1]);
             args.pop();
