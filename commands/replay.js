@@ -50,12 +50,13 @@ module.exports = class ReplayCommand {
             var title = result.key.map + " #" + result.replayId;
             var description = result.key.season;
             var timestamp = result.timestamp*1000;
-            var timeInSeconds = replay.data.game.recordLength;
+            var timeInSeconds = replay.length
             var gameDuration = new Date(null, null, null, null, null, timeInSeconds).toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
+            var mapRequest = result.key.map.split(' ').join('-').toLowerCase();
             const embdedResult = new Discord.RichEmbed()
                 .setColor(config.embedcolor)
                 .setTitle(title)
-                .setDescription(description)
+                .setDescription("[" + description + "](" + "https://wc3stats.com/" + mapRequest + "/leaderboard)")
                 .setURL('https://wc3stats.com/games/' + result.replayId)
                 .addField('Player', playerStr, true)
                 .addField('Rating change', ratingStr, true)
