@@ -42,14 +42,12 @@ module.exports = class StatsCommand {
 
         (async () => {            
             var profiles = await wc3stats.fetchUserProfileByMap(map, username, season);
-            console.log(profiles);
             if (profiles === "No results found.") {
                 msg.channel.send(MessageUtils.error("No results found for {" + username + "}."));
                 return;
             }
             var id = profiles[0].id;
             var user = await (wc3stats.fetchUserStatsByIdAndMap(id, map, username, season));
-            console.log(user);
             msg.channel.send(new Discord.RichEmbed()
                 .setColor(config.embedcolor)
                 .setTitle(user.name + " #" + user.rank)

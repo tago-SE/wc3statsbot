@@ -50,7 +50,6 @@ module.exports = class ScoreboardCommand {
                     for (var i = 0; i < args.length; i++) {
                         args[i] = args[i].charAt(0).toUpperCase() + args[i].substring(1); 
                     }
-                    console.log(args);
                     var title = args.join(' ') + " Leaderboard";
                     var embed = new Discord.RichEmbed()
                         .setTitle(title)
