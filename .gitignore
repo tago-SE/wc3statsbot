@@ -1,5 +1,5 @@
 # Custom
-
+.secret.json
 .env
 dist
 node_modules

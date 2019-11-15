@@ -9,7 +9,7 @@ module.exports = class ScoreboardCommand {
         this.name = 'scoreboard'
         this.alias = ['sb']
         this.usage = this.name;
-        this.desc = 'Updates the scoreboard.'
+        this.desc = 'Shows player ranking.'
     }
 
     run(client, msg, args) {

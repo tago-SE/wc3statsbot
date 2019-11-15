@@ -50,9 +50,9 @@ module.exports = class UsersController {
         });
     }
 
-    static fetchUserStatsByIdAndMap(id, map) {
+    static fetchUserStatsByIdAndMap(id, map, username) {
         return new Promise(function (resolve, reject) {
-            fetch('https://api.wc3stats.com/profiles/cornzee/' + id + '&map=' + createMapRequest(map))
+            fetch('https://api.wc3stats.com/profiles/' + username + '/' + id + '&map=' + createMapRequest(map))
             .then(res => res.json())
             .then(json => {
                 var body = json.body;
