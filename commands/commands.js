@@ -23,11 +23,13 @@ module.exports = class CommandsCommand {
         if (files.length <= 0) 
             throw new Error('No commands to load!');
 
-        const embed = new Discord.RichEmbed().setColor(config.embedcolor).setTitle("Commands");
+        const embed = new Discord.RichEmbed()
+            .setColor(config.embedcolor)
+            .setTitle("Commands");
+
         const prefix = config.prefix;
-
         var showAdminCommands = args.length > 0 && args[0].toLowerCase() == "-a";
-
+        
         for (const f of jsFiles) {
             const file = require(folder + f);
             const cmd = new file();

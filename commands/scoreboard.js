@@ -1,6 +1,8 @@
+const Discord = require('discord.js');
 const wc3stats = require("../controllers/Wc3Stats");
 const config = require('../config.json');
-const Discord = require('discord.js');
+const CommandUtils = require("../utils/commandutils");
+
 const userLimit = 15;
 
 module.exports = class ScoreboardCommand {
@@ -8,7 +10,7 @@ module.exports = class ScoreboardCommand {
     constructor() {
         this.name = 'scoreboard'
         this.alias = ['sb']
-        this.usage = this.name + " (rank)";
+        this.usage = this.name + " (rank) (-season [index])";
         this.desc = 'Shows player ranking starting from the provided number.'
     }
 
@@ -19,6 +21,8 @@ module.exports = class ScoreboardCommand {
         var ratings = "";
         var first = 0;
 
+        var season = CommandUtils.getSeasonFromArgs(msg, args);
+
         if (args.length > 0 && !isNaN(args[args.length - 1])) {
             first = parseInt(args[args.length - 1]);
             args.pop();
@@ -28,10 +32,7 @@ module.exports = class ScoreboardCommand {
         var mapName = config.map.name;    // default map name
         if (args.length > 0) {
             mapName = args.join(' ');
-        } 
-
-        // TODO - make it possible to specify which season
-        var season = config.map.season;
+        }
 
         (async () => {            
             try {
@@ -54,6 +55,7 @@ module.exports = class ScoreboardCommand {
                     var embed = new Discord.RichEmbed()
                         .setTitle(title)
                         .setURL("https://wc3stats.com/" +  args.join('-') + "/leaderboard")
+                        .setDescription(season)
                         .setColor(config.embedcolor)
                         .addField("Player", names, true)
                         .addField("Score", winLossRatios, true)

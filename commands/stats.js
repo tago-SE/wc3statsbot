@@ -3,6 +3,7 @@ const config = require('../config.json');
 const Discord = require('discord.js');
 const MathUtils = require("../utils/mathutils");
 const MessageUtils = require("../utils/messageutils");
+const CommandUtils = require("../utils/commandutils");
 
 function getCommandPlayerName(msg, args) {
     if (args.length > 0) {
@@ -15,7 +16,7 @@ function getCommandPlayerName(msg, args) {
     return name.toLowerCase();
 }
 
-function getMapName(args) {
+function getMapNameFromArgs(args) {
     var mapName = config.map.name;    // default map name
     if (args.length > 1) {
         args.splice(0, 1);
@@ -29,16 +30,16 @@ module.exports = class StatsCommand {
     constructor() {
         this.name = 'stats'
         this.alias = ['st']
-        this.usage = this.name + " (player)"
-        this.desc = 'Reveals player stats.'
+        this.usage = this.name + " (player) (-map [name]) (-season [index])"
+        this.desc = 'Reveals player stats for the current of specified season.'
     }
 
     run(client, msg, args) {
+        
+        var season = CommandUtils.getSeasonFromArgs(msg, args);
+        
         var username = getCommandPlayerName(msg, args);
-        var map = getMapName(args);
-
-        // TODO - make it possible to specify which season
-        var season = config.map.season;
+        var map = getMapNameFromArgs(args);
 
         (async () => {            
             var profiles = await wc3stats.fetchUserProfileByMap(map, username, season);

@@ -25,8 +25,7 @@ module.exports = class ReplayCommand {
 
         // TODO - make it possible to specify which season
         var season = config.map.season;
-
-
+        
         (async () => {  
             var [result, replay] = await Promise.all([
                 wc3stats.fetchResultById(id, season), 
