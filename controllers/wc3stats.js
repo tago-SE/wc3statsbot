@@ -16,7 +16,25 @@ module.exports = class UsersController {
 
     static fetchReplayById(id) {
         return new Promise(function (resolve, reject) {
-            fetch(`https://api.wc3stats.com/replays/` + id + `&toDisplay=true`)
+            fetch(`https://api.wc3stats.com/replays/` + id)
+            .then(res => res.json())
+            .then(json => {
+                var body = json.body;
+                if (!body) {
+                    reject(new Error("no body found"));
+                } else {
+                    resolve(body);
+                }
+            }).catch(err => {
+                console.log(err);
+                reject(err);
+            });
+        });
+    }
+
+    static fetchResultById(id) {
+        return new Promise(function (resolve, reject) {
+            fetch(`https://api.wc3stats.com/results/` + id)
             .then(res => res.json())
             .then(json => {
                 var body = json.body;
