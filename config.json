@@ -2,9 +2,11 @@
     "prefix": "!",
     "embedcolor": "#f5f17a",
 
-    "actionableChannels": ["612227462662979596", "383292703955222546", "602619024047734808"],
+    "actionableChannels": ["612227462662979596", "644894404599087115", "608765445872549898"],
     "actionableChannelsComment": ["Test", "Nod", "Saran"],
-    
+
+    "attachementShowError": false,
+
     "map": {
         "name": "Risk Reforged",
         "season": "Season 2",

@@ -46,13 +46,15 @@ module.exports = class ScoreboardCommand {
                     ratings += user.rating + "\n"; 
                 }
                 if (names.length > 0) {
-
+                    args = mapName.split(' ');
                     for (var i = 0; i < args.length; i++) {
                         args[i] = args[i].charAt(0).toUpperCase() + args[i].substring(1); 
                     }
-                    var title = args.join(' ');
+                    console.log(args);
+                    var title = args.join(' ') + " Leaderboard";
                     var embed = new Discord.RichEmbed()
                         .setTitle(title)
+                        .setURL("https://wc3stats.com/" +  args.join('-') + "/leaderboard")
                         .setColor(config.embedcolor)
                         .addField("Player", names, true)
                         .addField("Score", winLossRatios, true)

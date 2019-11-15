@@ -4,7 +4,7 @@ const client = new Discord.Client();
 const { CommandHandler } = require('djs-commands');
 
 const config = require('./config.json');
-//const MessageUtils = require("./utils/messageutils");
+const MessageUtils = require("./utils/messageutils");
 const wc3stats = require("./controllers/Wc3Stats");
 const CH = new CommandHandler({
     folder: __dirname + "/commands/",
@@ -38,15 +38,17 @@ client.on('message', msg => {
         let attached = msg.attachments.array()[0];
         let fname = attached.filename;
         if (fname.substring(fname.length - 4, fname.length) !== ".w3g") { 
-            msg.channel.send(MessageUtils.error("Invalid file format. Can only read w3g files."));
+            if (config.attachementShowError) {
+                msg.channel.send(MessageUtils.error("Invalid file format. Can only read w3g files."));
+            }
         } else {
             wc3stats.postReplayAttachment(attached)
             .then(json => {
                 const ReplayCommand = require('./commands/replay');
                 new ReplayCommand().run(client, msg, [json.body.id]); 
             });
+            msg.delete();
         }
-        msg.delete();
     }
 
 
