@@ -2,6 +2,7 @@ const wc3stats = require("../controllers/Wc3Stats");
 const config = require('../config.json');
 const Discord = require('discord.js');
 const MathUtils = require("../utils/mathutils");
+const MessageUtils = require("../utils/messageutils");
 
 function getCommandPlayerName(msg, args) {
     if (args.length > 0) {
@@ -28,21 +29,26 @@ module.exports = class StatsCommand {
     constructor() {
         this.name = 'stats'
         this.alias = ['st']
-        this.usage = this.name;
-        this.desc = 'Display user stats'
+        this.usage = this.name + " (player)"
+        this.desc = 'Reveals player stats.'
     }
 
     run(client, msg, args) {
         var username = getCommandPlayerName(msg, args);
         var map = getMapName(args);
+
+        // TODO - make it possible to specify which season
+        var season = config.map.season;
+
         (async () => {            
-            var profiles = await wc3stats.fetchUserProfileByMap(map, username);
+            var profiles = await wc3stats.fetchUserProfileByMap(map, username, season);
             console.log(profiles);
             if (profiles === "No results found.") {
+                msg.channel.send(MessageUtils.error("No results found for {" + username + "}."));
                 return;
             }
             var id = profiles[0].id;
-            var user = await (wc3stats.fetchUserStatsByIdAndMap(id, map, username));
+            var user = await (wc3stats.fetchUserStatsByIdAndMap(id, map, username, season));
             console.log(user);
             msg.channel.send(new Discord.RichEmbed()
                 .setColor(config.embedcolor)

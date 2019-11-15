@@ -8,8 +8,8 @@ module.exports = class ScoreboardCommand {
     constructor() {
         this.name = 'scoreboard'
         this.alias = ['sb']
-        this.usage = this.name;
-        this.desc = 'Shows player ranking.'
+        this.usage = this.name + " (rank)";
+        this.desc = 'Shows player ranking starting from the provided number.'
     }
 
     run(client, msg, args) {
@@ -30,9 +30,13 @@ module.exports = class ScoreboardCommand {
         if (args.length > 0) {
             mapName = args.join(' ');
         } 
+
+        // TODO - make it possible to specify which season
+        var season = config.map.season;
+
         (async () => {            
             try {
-                var users = await wc3stats.fetchTopRankedUsersByMap(mapName, first + userLimit);
+                var users = await wc3stats.fetchTopRankedUsersByMap(mapName, first + userLimit, season);
                 if (users === "No results found.") {
                     return;
                 }

@@ -8,8 +8,8 @@ module.exports = class ReplayCommand {
     constructor() {
         this.name = 'replay'
         this.alias = ['rep']
-        this.usage = this.name;
-        this.desc = 'Shows player ranking.'
+        this.usage = this.name + " [id]";
+        this.desc = 'Reveals data from a uploaded replay.'
     }
 
     run(client, msg, args) {
@@ -23,15 +23,21 @@ module.exports = class ReplayCommand {
             return;
         }
 
-        (async () => {     
-            var result = await wc3stats.fetchResultById(id);
+        // TODO - make it possible to specify which season
+        var season = config.map.season;
+
+
+        (async () => {  
+            
+            var [result, replay] = await Promise.all([
+                wc3stats.fetchResultById(id, season), 
+                wc3stats.fetchReplayById(id, season) 
+            ]);
             result = result[0];
             var playerStr = "";
             var ratingStr = "";
-            var kdStr = "";
-            console.log(result.teams);
- 
-            console.log("number of teams: " + result.teams.length);
+
+
             for (var i = 0; i < result.teams.length; i++) {
                 var team = result.teams[i];
                 for (var j = 0; j < team.players.length; j++) {
@@ -42,28 +48,21 @@ module.exports = class ReplayCommand {
             }
 
             var title = result.key.map + " #" + result.replayId;
-
-            /*
-            var players = result.scheme.teams.players;
-            for (var i = 0; i < players.length; i++) 
-            {
-                var player = players[i];
-                playerStr += player.name + " (" + player.apm + ")\n";  
-                console.log(player.name);
-            }
-            */
+            var description = result.key.season;
+            var timestamp = result.timestamp*1000;
+          
+            var timeInSeconds = replay.data.game.recordLength;
+            var gameDuration = new Date(null, null, null, null, null, timeInSeconds).toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
 
             const embdedResult = new Discord.RichEmbed()
                 .setColor(config.embedcolor)
                 .setTitle(title)
+                .setDescription(description)
                 .setURL('https://wc3stats.com/games/' + result.replayId)
-                .setDescription("desc")
-                .addField('Players', playerStr, true)
-                .addField('Rating', ratingStr, true)
-                //.addField('K/D', kdStr, true)
-               // .setTimestamp(new Date(replay.timestamp))
-                .setFooter("duration", config.map.footer);
-                //.setFooter(replay.turns + ' turns', 'https://cdn.discordapp.com/attachments/413107471222308864/614788523526193193/risk_avatar_trees_big.png');
+                .addField('Player', playerStr, true)
+                .addField('Rating change', ratingStr, true)
+                .setTimestamp(new Date(timestamp))
+                .setFooter(gameDuration, config.map.footer);
             msg.channel.send(embdedResult);  
         })();
     }

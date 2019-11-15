@@ -5,8 +5,7 @@ const { CommandHandler } = require('djs-commands');
 
 const config = require('./config.json');
 //const MessageUtils = require("./utils/messageutils");
-//const Wc3StatsController = require('./controller/wc3stats-controller');
-
+const wc3stats = require("./controllers/Wc3Stats");
 const CH = new CommandHandler({
     folder: __dirname + "/commands/",
     prefix: config.prefix
@@ -21,6 +20,9 @@ client.on('message', msg => {
     
     if (msg.author.bot)  
         return;
+
+    // Ignore messages posted in wrong channels
+    if (!config.actionableChannels.includes(msg.channel.id)) return;
 
     // Handle command
    
@@ -38,16 +40,13 @@ client.on('message', msg => {
         if (fname.substring(fname.length - 4, fname.length) !== ".w3g") { 
             msg.channel.send(MessageUtils.error("Invalid file format. Can only read w3g files."));
         } else {
-            //Wc3StatsController.postReplayAttachment(attached)
-            //.then(json => {
-            //    const SubmitCommand = require('./commands/submit');
-            //    new SubmitCommand().run(client, msg, [json.body.id]); 
-            //})
-            //.catch(err => {
-            //    //msg.channel.send(MessageUtils.error("Upload to wc3stats.com failed"));
-            //});
+            wc3stats.postReplayAttachment(attached)
+            .then(json => {
+                const ReplayCommand = require('./commands/replay');
+                new ReplayCommand().run(client, msg, [json.body.id]); 
+            });
         }
-        //msg.delete();
+        msg.delete();
     }
 
 
