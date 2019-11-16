@@ -11,7 +11,7 @@ module.exports = class ScoreboardCommand {
     constructor() {
         this.name = 'scoreboard'
         this.alias = ['sb']
-        this.usage = this.name + " (rank) (-season [index]) (-map 'name')";
+        this.usage = this.name + " (rank) (-season [index]) (-map 'name') (-mode [name])";
         this.desc = 'Shows player ranking starting from the provided number.'
     }
 
@@ -30,10 +30,12 @@ module.exports = class ScoreboardCommand {
         var mapName = CommandUtils.getMapFromArgs(args);
         if (mapName == null)
             mapName = config.map.name;
+
+        var mode = CommandUtils.getModeFromArgs(args);
             
         (async () => {            
             try {
-                var users = await wc3stats.fetchTopRankedUsersByMap(mapName, first + userLimit, season);
+                var users = await wc3stats.fetchTopRankedUsersByMap(mapName, first + userLimit, season, mode);
                 if (users === "No results found.") {
                     msg.channel.send(MessageUtils.error("No results found for {" + mapName + ", " + season + "}."));
                     return;

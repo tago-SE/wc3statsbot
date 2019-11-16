@@ -51,6 +51,8 @@ client.on('message', msg => {
         }
     }
 
+    // Ignore none command messages 
+    if (msg.content.indexOf(config.prefix) !== 0) return
 
     // Execute command if it exists 
     const foundCommand = CH.getCommand(config.prefix + command);

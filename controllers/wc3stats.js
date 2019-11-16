@@ -101,12 +101,11 @@ module.exports = class UsersController {
         });
     }
 
-    static fetchTopRankedUsersByMap(map, numUsers, season) {
+    static fetchTopRankedUsersByMap(map, numUsers, season, mode) {
         var mapRequest = createMapRequest(map);
         const url = "https://api.wc3stats.com/leaderboard&map=" + mapRequest + 
             "&ladder=Public&season=Season%201&round=Global&sort=rank&order=asc&page=1&limit=" + numUsers  + 
-            '&season=' + season
-            
+            '&season=' + season + ((mode == null)? '' : '&mode=' + mode);
         return new Promise(function (resolve, reject) {
             fetch(url)
             .then(res => res.json())

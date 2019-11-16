@@ -1,3 +1,5 @@
+This discord bot is made in partnership with [wc3stats](https://wc3stats.com) and utilizes their [api](https://wiki.wc3stats.com/Help:API).
+
 # Features
 
 * Automatically upload posted replay files to wc3stats.com.
@@ -19,4 +21,3 @@
 
 * Dependencies -- npm install
 * Running -- npm run start
-
