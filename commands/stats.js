@@ -16,15 +16,6 @@ function getCommandPlayerName(msg, args) {
     return name.toLowerCase();
 }
 
-function getMapNameFromArgs(args) {
-    var mapName = config.map.name;    // default map name
-    if (args.length > 1) {
-        args.splice(0, 1);
-        mapName = args.join(' ');
-    } 
-    return mapName;
-}
-
 module.exports = class StatsCommand {
 
     constructor() {
@@ -37,21 +28,28 @@ module.exports = class StatsCommand {
     run(client, msg, args) {
         
 
+        var mapName = CommandUtils.getMapFromArgs(args);
+        if (mapName == null)
+            mapName = config.map.name;
+
+        console.log(args);
+
         var season = CommandUtils.getSeasonFromArgs(args);
         if (season == null) 
             season = config.map.season;
             
+        console.log(args);
+
         var username = getCommandPlayerName(msg, args);
-        var map = getMapNameFromArgs(args);
 
         (async () => {            
-            var profiles = await wc3stats.fetchUserProfileByMap(map, username, season);
+            var profiles = await wc3stats.fetchUserProfileByMap(mapName, username, season);
             if (profiles === "No results found.") {
-                msg.channel.send(MessageUtils.error("No results found for {" + username + "}."));
+                msg.channel.send(MessageUtils.error("No results found for {" + username + ", " + mapName + ", " + season + "}."));
                 return;
             }
             var id = profiles[0].id;
-            var user = await (wc3stats.fetchUserStatsByIdAndMap(id, map, username, season));
+            var user = await (wc3stats.fetchUserStatsByIdAndMap(id, mapName, username, season));
             msg.channel.send(new Discord.RichEmbed()
                 .setColor(config.embedcolor)
                 .setTitle(user.name + " #" + user.rank)

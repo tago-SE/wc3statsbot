@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const wc3stats = require("../controllers/Wc3Stats");
 const config = require('../config.json');
+const MessageUtils = require("../utils/messageutils");
 const CommandUtils = require("../utils/commandutils");
 
 const userLimit = 15;
@@ -10,7 +11,7 @@ module.exports = class ScoreboardCommand {
     constructor() {
         this.name = 'scoreboard'
         this.alias = ['sb']
-        this.usage = this.name + " (rank) (-season [index])";
+        this.usage = this.name + " (rank) (-season [index]) (-map 'name')";
         this.desc = 'Shows player ranking starting from the provided number.'
     }
 
@@ -25,21 +26,16 @@ module.exports = class ScoreboardCommand {
         if (season == null) 
             season = config.map.season;
 
-        if (args.length > 0 && !isNaN(args[args.length - 1])) {
-            first = parseInt(args[args.length - 1]);
-            args.pop();
-            if (first < 0) 
-                first = 0;
-        }
-        var mapName = config.map.name;    // default map name
-        if (args.length > 0) {
-            mapName = args.join(' ');
-        }
-
+            
+        var mapName = CommandUtils.getMapFromArgs(args);
+        if (mapName == null)
+            mapName = config.map.name;
+            
         (async () => {            
             try {
                 var users = await wc3stats.fetchTopRankedUsersByMap(mapName, first + userLimit, season);
                 if (users === "No results found.") {
+                    msg.channel.send(MessageUtils.error("No results found for {" + mapName + ", " + season + "}."));
                     return;
                 }
                 for (var i = first; i < users.length; i++) {

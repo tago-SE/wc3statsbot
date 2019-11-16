@@ -2,13 +2,14 @@ const wc3stats = require("../controllers/Wc3Stats");
 const config = require('../config.json');
 const Discord = require('discord.js');
 const MessageUtils = require("../utils/messageutils");
+const CommandUtils = require("../utils/commandutils");
 
 module.exports = class ReplayCommand {
 
     constructor() {
         this.name = 'replay'
         this.alias = ['rep']
-        this.usage = this.name + " [id]";
+        this.usage = this.name + " [id] (-season [index])";
         this.desc = 'Reveals data from a uploaded replay.'
     }
 
