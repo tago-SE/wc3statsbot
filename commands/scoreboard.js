@@ -21,7 +21,9 @@ module.exports = class ScoreboardCommand {
         var ratings = "";
         var first = 0;
 
-        var season = CommandUtils.getSeasonFromArgs(msg, args);
+        var season = CommandUtils.getSeasonFromArgs(args);
+        if (season == null) 
+            season = config.map.season;
 
         if (args.length > 0 && !isNaN(args[args.length - 1])) {
             first = parseInt(args[args.length - 1]);

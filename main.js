@@ -61,7 +61,6 @@ client.on('message', msg => {
     } catch (e) {
         console.log(e);
     }
-
 });
 
 const secret = require('./.secret.json');

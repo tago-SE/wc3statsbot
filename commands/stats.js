@@ -36,8 +36,11 @@ module.exports = class StatsCommand {
 
     run(client, msg, args) {
         
-        var season = CommandUtils.getSeasonFromArgs(msg, args);
-        
+
+        var season = CommandUtils.getSeasonFromArgs(args);
+        if (season == null) 
+            season = config.map.season;
+            
         var username = getCommandPlayerName(msg, args);
         var map = getMapNameFromArgs(args);
 

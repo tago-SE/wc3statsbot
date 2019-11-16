@@ -23,8 +23,9 @@ module.exports = class ReplayCommand {
             return;
         }
 
-        // TODO - make it possible to specify which season
-        var season = config.map.season;
+        var season = CommandUtils.getSeasonFromArgs(args);
+        if (season == null) 
+            season = config.map.season;
         
         (async () => {  
             var [result, replay] = await Promise.all([
