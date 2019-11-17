@@ -46,16 +46,17 @@ module.exports = class StatsCommand {
             var modeStr = "";
             var score = "";
             var ratio = "";
+            var displayName;
             for (var i = 0; i < profiles.length; i++) {
                 var stats = await (wc3stats.fetchUserStatsByIdAndMap(profiles[i].id, mapName, username, season));
-                username = stats.name;
+                displayName = stats.name;
                 modeStr += stats.key.mode + "\n";
                 score += stats.wins + " - " + stats.losses + "\n";
                 ratio += (MathUtils.ratio(stats.wins, stats.losses + stats.wins)*100).toFixed(1) + "%\n";
             }
             var embed = new Discord.RichEmbed()
                 .setColor(config.embedcolor)
-                .setTitle(username)
+                .setTitle(displayName)
                 .setURL('https://wc3stats.com/players/' + username)
                 .addField('Mode', modeStr, true)
                 .addField('Score', score, true)
