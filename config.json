@@ -2,8 +2,8 @@
     "prefix": "!",
     "embedcolor": "#f5f17a",
 
-    "actionableChannels": ["612227462662979596", "644894404599087115", "608765445872549898"],
-    "actionableChannelsComment": ["Test", "Nod", "Saran"],
+    "actionableChannels": ["612227462662979596", "644894404599087115", "383292703955222546", "608765445872549898"],
+    "actionableChannelsComment": ["Test", "Nod-league", "nod-general", "Saran"],
 
     "attachementShowError": false,
 

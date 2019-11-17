@@ -1,6 +1,5 @@
 const fetch = require('node-fetch');
 const request = require('request-promise');
-const config = require('../config.json'); 
 
 function createMapRequest(map) {
     var mapArgs = map.split(' ')
@@ -31,7 +30,7 @@ module.exports = class UsersController {
 
     static fetchReplayById(id, season) {
         return new Promise(function (resolve, reject) {
-            fetch(`https://api.wc3stats.com/replays/` + id + '&season=' + season)
+            fetch(`https://api.wc3stats.com/replays/` + id)
             .then(res => res.json())
             .then(json => {
                 var body = json.body;

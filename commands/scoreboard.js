@@ -6,6 +6,16 @@ const CommandUtils = require("../utils/commandutils");
 
 const userLimit = 15;
 
+function getFirstRankFromArgs(args) {
+    if (args.length > 0) {
+        var first = parseInt(args[0]);
+        if (!isNaN(first)) {
+            return first;
+        }
+    }
+    return 0; // default
+}
+
 module.exports = class ScoreboardCommand {
 
     constructor() {
@@ -17,22 +27,22 @@ module.exports = class ScoreboardCommand {
 
     run(client, msg, args) {
 
-        var names = "";
-        var winLossRatios = "";
-        var ratings = "";
-        var first = 0;
+        var first = getFirstRankFromArgs(args);
 
         var season = CommandUtils.getSeasonFromArgs(args);
         if (season == null) 
             season = config.map.season;
 
-            
         var mapName = CommandUtils.getMapFromArgs(args);
         if (mapName == null)
             mapName = config.map.name;
 
         var mode = CommandUtils.getModeFromArgs(args);
-            
+
+        var names = "";
+        var winLossRatios = "";
+        var ratings = "";
+        
         (async () => {            
             try {
                 var users = await wc3stats.fetchTopRankedUsersByMap(mapName, first + userLimit, season, mode);

@@ -9,7 +9,7 @@ module.exports = class ReplayCommand {
     constructor() {
         this.name = 'replay'
         this.alias = ['rep']
-        this.usage = this.name + " [id] (-season [index])";
+        this.usage = this.name + " [id]";
         this.desc = 'Reveals data from a uploaded replay.'
     }
 
@@ -39,13 +39,15 @@ module.exports = class ReplayCommand {
             }
             result = result[0];
             var playerStr = "";
+            var changeStr = "";
             var ratingStr = "";
             for (var i = 0; i < result.teams.length; i++) {
                 var team = result.teams[i];
                 for (var j = 0; j < team.players.length; j++) {
                     var player = team.players[j];
                     playerStr += player.placement + ". " + player.name + " (" + player.apm + ")\n";  
-                    ratingStr += ((player.change > 0)? "+": "") + player.change +"\n";
+                    changeStr += ((player.change > 0)? "+": "") + player.change +"\n";
+                    ratingStr += player.rating + "\n";
                 }
             }
             var title = result.key.map + " #" + result.replayId;
@@ -60,7 +62,8 @@ module.exports = class ReplayCommand {
                 .setDescription("[" + description + "](" + "https://wc3stats.com/" + mapRequest + "/leaderboard)")
                 .setURL('https://wc3stats.com/games/' + result.replayId)
                 .addField('Player', playerStr, true)
-                .addField('Rating change', ratingStr, true)
+                .addField('Change', changeStr, true)
+                .addField('Rating', ratingStr, true)
                 .setTimestamp(new Date(timestamp))
                 .setFooter(gameDuration, config.map.footer);
             msg.channel.send(embdedResult);  

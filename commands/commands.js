@@ -26,7 +26,7 @@ module.exports = class CommandsCommand {
         const embed = new Discord.RichEmbed()
             .setColor(config.embedcolor)
             .setTitle("Commands")
-            .setDescription("Optional argument is denoted by (#) and required arguments are denoted by [#].");
+            .setDescription("Optional argument are denoted by () and required arguments are denoted by [].");
 
         const prefix = config.prefix;
         var showAdminCommands = args.length > 0 && args[0].toLowerCase() == "-a";
