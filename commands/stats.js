@@ -43,17 +43,24 @@ module.exports = class StatsCommand {
                 msg.channel.send(MessageUtils.error("No results found for {" + username + ", " + mapName + ", " + season + "}."));
                 return;
             }
-            var id = profiles[0].id;
-            var user = await (wc3stats.fetchUserStatsByIdAndMap(id, mapName, username, season));
-            msg.channel.send(new Discord.RichEmbed()
+            var modeStr = "";
+            var score = "";
+            var ratio = "";
+            for (var i = 0; i < profiles.length; i++) {
+                var stats = await (wc3stats.fetchUserStatsByIdAndMap(profiles[i].id, mapName, username, season));
+                username = stats.name;
+                modeStr += stats.key.mode + "\n";
+                score += stats.wins + " - " + stats.losses + "\n";
+                ratio += (MathUtils.ratio(stats.wins, stats.losses + stats.wins)*100).toFixed(1) + "%\n";
+            }
+            var embed = new Discord.RichEmbed()
                 .setColor(config.embedcolor)
-                .setTitle(user.name + " #" + user.rank)
-                .setURL('https://wc3stats.com/players/' + user.name)
-                .setDescription("Has a current winstreak of " + user.winstreak + " and a record of " + user.bestWinstreak + ".")
-                .addField('Wins', user.wins, true)
-                .addField('Losses', user.losses, true)
-                .addField('Ratio', (MathUtils.ratio(user.wins, user.losses + user.wins)*100).toFixed(2) + "%", true)
-            );
+                .setTitle(username)
+                .setURL('https://wc3stats.com/players/' + username)
+                .addField('Mode', modeStr, true)
+                .addField('Score', score, true)
+                .addField('Ratio', ratio, true);
+            msg.channel.send(embed);
         })();
     }
 }

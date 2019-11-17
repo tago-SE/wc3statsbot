@@ -28,9 +28,9 @@ module.exports = class UsersController {
         });
     }
 
-    static fetchReplayById(id, season) {
+    static fetchReplayById(id) {
         return new Promise(function (resolve, reject) {
-            fetch(`https://api.wc3stats.com/replays/` + id)
+            fetch('https://api.wc3stats.com/replays/' + id)
             .then(res => res.json())
             .then(json => {
                 var body = json.body;
@@ -46,7 +46,7 @@ module.exports = class UsersController {
         });
     }
 
-    static fetchResultById(id, season) {
+    static fetchResultById(id) {
         return new Promise(function (resolve, reject) {
             fetch(`https://api.wc3stats.com/results/` + id)
             .then(res => res.json())
@@ -66,7 +66,7 @@ module.exports = class UsersController {
 
     static fetchUserProfileByMap(map, username, season) {
         return new Promise(function (resolve, reject) {
-            fetch('https://api.wc3stats.com/profiles/' + username + '&map=' + createMapRequest(map) + '&season=' + season)
+            fetch('https://api.wc3stats.com/profiles/' + username + '&map=' + map + '&season=' + season)
             .then(res => res.json())
             .then(json => {
                 var body = json.body;
@@ -84,7 +84,7 @@ module.exports = class UsersController {
 
     static fetchUserStatsByIdAndMap(id, map, username, season) {
         return new Promise(function (resolve, reject) {
-            fetch('https://api.wc3stats.com/profiles/' + username + '/' + id + '&map=' + createMapRequest(map) + '&season=' + season)
+            fetch('https://api.wc3stats.com/profiles/' + username + '/' + id + '&map=' + map + '&season=' + season)
             .then(res => res.json())
             .then(json => {
                 var body = json.body;

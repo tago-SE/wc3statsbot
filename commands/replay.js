@@ -30,17 +30,18 @@ module.exports = class ReplayCommand {
         
         (async () => {  
             var [result, replay] = await Promise.all([
-                wc3stats.fetchResultById(id, season), 
-                wc3stats.fetchReplayById(id, season) 
+                wc3stats.fetchResultById(id), 
+                wc3stats.fetchReplayById(id) 
             ]);
-            if (replay === "No results found." || result === "No results found.") {
-                msg.channel.send(MessageUtils.error("Failed to find results for {" + args[0] + "}. This might be because it was posted during a previous season."));
+            if (replay === "No results found." || result === "No results found." ) {
+                msg.channel.send(MessageUtils.error("Failed to find results for {" + args[0] + "}."));
                 return;
             }
             result = result[0];
             var playerStr = "";
             var changeStr = "";
             var ratingStr = "";
+        
             for (var i = 0; i < result.teams.length; i++) {
                 var team = result.teams[i];
                 for (var j = 0; j < team.players.length; j++) {
@@ -50,6 +51,7 @@ module.exports = class ReplayCommand {
                     ratingStr += player.rating + "\n";
                 }
             }
+            
             var title = result.key.map + " #" + result.replayId;
             var description = result.key.season;
             var timestamp = result.timestamp*1000;
@@ -67,6 +69,7 @@ module.exports = class ReplayCommand {
                 .setTimestamp(new Date(timestamp))
                 .setFooter(gameDuration, config.map.footer);
             msg.channel.send(embdedResult);  
+            
         })();
     }
 }
