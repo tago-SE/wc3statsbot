@@ -59,6 +59,7 @@ client.on('message', msg => {
     if (!foundCommand) 
         return;
     try {
+        console.log("command: " + command + ", args: " + args);
         foundCommand.run(client, msg, args);
     } catch (e) {
         console.log(e);
