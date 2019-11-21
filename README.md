@@ -1,6 +1,6 @@
 This discord bot is made in partnership with [wc3stats](https://wc3stats.com) and utilizes their [api](https://wiki.wc3stats.com/Help:API).
 
-There is a version of this bot up and running already, if you want your map and discord channel to be serviced by it you can reach out to Pinzu@[discord](https://discordapp.com/invite/N3VGkUM). 
+There is a version of this bot up and running already, if you want your map and discord channel to be serviced by it you can reach out to [Pinzu@discord](https://discordapp.com/invite/N3VGkUM). 
 
 # Features
 
