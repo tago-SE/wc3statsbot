@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const wc3stats = require("../controllers/Wc3Stats");
+const wc3stats = require("../controllers/wc3stats");
 const config = require('../config.json');
 const MessageUtils = require("../utils/messageutils");
 const CommandUtils = require("../utils/commandutils");
