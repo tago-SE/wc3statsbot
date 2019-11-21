@@ -21,5 +21,5 @@ This discord bot is made in partnership with [wc3stats](https://wc3stats.com) an
 
 Make sure you have node.js and npm installed. Then open a terminal in the project directory and execute the following commands: 
 
-    npm instal
+    npm install
     npm run start
