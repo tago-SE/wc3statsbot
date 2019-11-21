@@ -5,7 +5,7 @@ const { CommandHandler } = require('djs-commands');
 
 const config = require('./config.json');
 const MessageUtils = require("./utils/messageutils");
-const wc3stats = require("./controllers/Wc3Stats");
+const wc3stats = require("./controllers/wc3stats");
 const CH = new CommandHandler({
     folder: __dirname + "/commands/",
     prefix: config.prefix
