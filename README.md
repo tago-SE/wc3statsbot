@@ -17,7 +17,9 @@ This discord bot is made in partnership with [wc3stats](https://wc3stats.com) an
 
 
 
-# Running the Bot
+# Installing & running the bot
 
-* Dependencies -- npm install
-* Running -- npm run start
+Make sure you have node.js and npm installed. Then open a terminal in the project directory and execute the following commands: 
+
+    npm instal
+    npm run start
