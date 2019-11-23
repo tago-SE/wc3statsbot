@@ -1,15 +1,5 @@
 {
     "prefix": "!",
     "embedcolor": "#f5f17a",
-
-    "actionableChannels": ["639213697440415745", "644894404599087115", "383292703955222546", "608765445872549898"],
-    "actionableChannelsComment": ["Test", "Nod-league", "nod-general", "Saran"],
-
-    "attachementShowError": false,
-
-    "map": {
-        "name": "Risk Reforged",
-        "season": "Season 2",
-        "footer": "https://cdn.discordapp.com/attachments/413107471222308864/614788523526193193/risk_avatar_trees_big.png"
-    }
+    "attachementShowError": false  
 }

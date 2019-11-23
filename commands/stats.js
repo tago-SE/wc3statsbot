@@ -4,6 +4,7 @@ const Discord = require('discord.js');
 const MathUtils = require("../utils/mathutils");
 const MessageUtils = require("../utils/messageutils");
 const CommandUtils = require("../utils/commandutils");
+const ChannelsManager = require("../channels-manager");
 
 function getCommandPlayerName(msg, args) {
     if (args.length > 0) {
@@ -26,18 +27,22 @@ module.exports = class StatsCommand {
     }
 
     run(client, msg, args) {
-        
-        var mapName = CommandUtils.getMapFromArgs(args);
-        if (mapName == null)
-            mapName = config.map.name;
+        (async () => {      
+            
+            var channelConfig = await ChannelsManager.asyncGetChannel(msg.channel.id);
+            if (channelConfig == null)
+                return;
+    
+            var username = getCommandPlayerName(msg, args);
 
-        var season = CommandUtils.getSeasonFromArgs(args);
-        if (season == null) 
-            season = config.map.season;
-         
-        var username = getCommandPlayerName(msg, args);
+            var mapName = CommandUtils.getMapFromArgs(args);
+            if (mapName == null)
+                mapName = channelConfig.map;
 
-        (async () => {            
+            var season = CommandUtils.getSeasonFromArgs(args);
+            if (season == null) 
+                season =channelConfig.season;
+            
             var profiles = await wc3stats.fetchUserProfileByMap(mapName, username, season);
             if (profiles === "No results found.") {
                 msg.channel.send(MessageUtils.error("No results found for {" + username + ", " + mapName + ", " + season + "}."));
