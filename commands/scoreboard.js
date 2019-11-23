@@ -3,6 +3,7 @@ const wc3stats = require("../controllers/Wc3Stats");
 const config = require('../config.json');
 const MessageUtils = require("../utils/messageutils");
 const CommandUtils = require("../utils/commandutils");
+const ChannelsManager = require("../channels-manager");
 
 const userLimit = 15;
 
@@ -26,25 +27,27 @@ module.exports = class ScoreboardCommand {
     }
 
     run(client, msg, args) {
+        (async () => {      
+            
+            var first = getFirstRankFromArgs(args); 
+            var mode = CommandUtils.getModeFromArgs(args);  // can be null
+            var names = "";
+            var winLossRatios = "";
+            var ratings = "";   
 
-        var first = getFirstRankFromArgs(args);
-
-        var season = CommandUtils.getSeasonFromArgs(args);
-        if (season == null) 
-            season = config.map.season;
-
-        var mapName = CommandUtils.getMapFromArgs(args);
-        if (mapName == null)
-            mapName = config.map.name;
-
-        var mode = CommandUtils.getModeFromArgs(args);
-
-        var names = "";
-        var winLossRatios = "";
-        var ratings = "";
-        
-        (async () => {            
             try {
+                var channelConfig = await ChannelsManager.asyncGetChannel(msg.channel.id);
+                if (channelConfig == null)
+                    return;
+
+                var mapName = CommandUtils.getMapFromArgs(args);
+                if (mapName == null)
+                    mapName = channelConfig.map;
+
+                var season = CommandUtils.getSeasonFromArgs(args);
+                if (season == null) 
+                    season =channelConfig.season;
+   
                 var users = await wc3stats.fetchTopRankedUsersByMap(mapName, first + userLimit, season, mode);
                 if (users === "No results found.") {
                     msg.channel.send(MessageUtils.error("No results found for {" + mapName + ", " + season + "}."));

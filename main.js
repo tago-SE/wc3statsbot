@@ -21,9 +21,6 @@ client.on('message', msg => {
     if (msg.author.bot)  
         return;
 
-    // Ignore messages posted in wrong channels
-    if (!config.actionableChannels.includes(msg.channel.id)) return;
-
     // Handle command
    
     // Here we separate our "command" name, and our "arguments" for the command. 

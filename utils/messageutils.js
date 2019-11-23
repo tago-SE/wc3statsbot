@@ -8,6 +8,10 @@ module.exports = class MessageUtils {
                 "```"; 
    }
 
+   static system(str) {
+       return "```CSS\n" + str + "\n```";
+   }
+
    static formatRatio(n, m, dec) {
         if (m == 0) {
             if (n != 0)

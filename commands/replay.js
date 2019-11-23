@@ -3,6 +3,7 @@ const config = require('../config.json');
 const Discord = require('discord.js');
 const MessageUtils = require("../utils/messageutils");
 const CommandUtils = require("../utils/commandutils");
+const ChannelsManager = require("../channels-manager");
 
 module.exports = class ReplayCommand {
 
@@ -14,21 +15,23 @@ module.exports = class ReplayCommand {
     }
 
     run(client, msg, args) {
-        if (args.length == 0) {
-            msg.channel.send(MessageUtils.error("Need to specify a game id."));
-            return;
-        }
-        const id = parseInt(args[0]);
-        if (isNaN(id)) {
-            msg.channel.send(MessageUtils.error("Invalid replay id {" + args[0] + "}"));
-            return;
-        }
-
-        var season = CommandUtils.getSeasonFromArgs(args);
-        if (season == null) 
-            season = config.map.season;
-        
         (async () => {  
+            var channelConfig = await ChannelsManager.asyncGetChannel(msg.channel.id);
+            if (channelConfig == null)
+                return;
+                
+            if (args.length == 0) {
+                msg.channel.send(MessageUtils.error("Need to specify a game id."));
+                return;
+            }
+            const id = parseInt(args[0]);
+            if (isNaN(id)) {
+                msg.channel.send(MessageUtils.error("Invalid replay id {" + args[0] + "}"));
+                return;
+            }
+    
+
+
             var [result, replay] = await Promise.all([
                 wc3stats.fetchResultById(id), 
                 wc3stats.fetchReplayById(id) 
@@ -67,7 +70,7 @@ module.exports = class ReplayCommand {
                 .addField('Change', changeStr, true)
                 .addField('Rating', ratingStr, true)
                 .setTimestamp(new Date(timestamp))
-                .setFooter(gameDuration, config.map.footer);
+                .setFooter(gameDuration, channelConfig.footer);
             msg.channel.send(embdedResult);  
             
         })();
