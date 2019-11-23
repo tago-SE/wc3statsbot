@@ -1,4 +1,4 @@
-const wc3stats = require("../controllers/Wc3Stats");
+const wc3stats = require("../controllers/wc3stats");
 const config = require('../config.json');
 const Discord = require('discord.js');
 const MathUtils = require("../utils/mathutils");
