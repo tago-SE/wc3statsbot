@@ -122,15 +122,11 @@ module.exports = class UsersController {
         });
     }
 
-    // dun work : https://api.wc3stats.com/replays&map=Risk Reforged&season=Season 2&for=cornzee
-    //     work : https://api.wc3stats.com/replays&map=Risk Reforged&season=Season 1&for=cornzee
-
     static fetchUserGamesByMapSeasonMode(username, map, season, mode) {
         var url = 'https://api.wc3stats.com/replays'  +
             '&map=' + map + 
             '&season=' + season + ((mode == null)? '' : '&mode=' + mode) + 
             '&for=' + username;
-            console.log("url: " + url);
         return new Promise(function (resolve, reject) {
             fetch(url)
             .then(res => res.json())

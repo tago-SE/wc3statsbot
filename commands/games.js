@@ -5,7 +5,7 @@ const wc3stats = require("../controllers/wc3stats");
 const config = require('../config.json');
 const MessageUtils = require("../utils/messageutils");
 const CommandUtils = require("../utils/commandutils");
-
+const ChannelsManager = require("../channels-manager");
 
 function getCommandPlayerName(msg, args) {
     if (args.length > 0) {
@@ -28,19 +28,22 @@ module.exports = class GamesCommand {
     }
 
     run(client, msg, args) {
-
-        var mapName = CommandUtils.getMapFromArgs(args);
-        if (mapName == null)
-            mapName = config.map.name;
-
-        var season = CommandUtils.getSeasonFromArgs(args);
-        if (season == null) 
-            season = config.map.season;
-         
-        var username = getCommandPlayerName(msg, args);
-
         (async () => {  
             try {
+                var channelConfig = await ChannelsManager.asyncGetChannel(msg.channel.id);
+                if (channelConfig == null)
+                    return;
+
+                var mapName = CommandUtils.getMapFromArgs(args);
+                if (mapName == null)
+                    mapName = channelConfig.map;
+
+                var season = CommandUtils.getSeasonFromArgs(args);
+                if (season == null) 
+                    season =channelConfig.season;
+                
+                var username = getCommandPlayerName(msg, args);
+
                 var replays = await wc3stats.fetchUserGamesByMapSeasonMode(username, mapName, season);
                 if (replays === "No results found.") {
                     msg.channel.send(MessageUtils.error("No results found for {" + username + ", " + mapName + ", " + season + "}."));
