@@ -22,7 +22,7 @@ module.exports = class StatsCommand {
     constructor() {
         this.name = 'stats'
         this.alias = ['st']
-        this.usage = this.name + " (player) (-map [name]) (-season [index])"
+        this.usage = this.name + " (player) (-map ['name']) (-season [index])"
         this.desc = 'Reveals player stats for the current of specified season.'
     }
 
