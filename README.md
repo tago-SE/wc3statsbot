@@ -1,5 +1,7 @@
 This discord bot is made in partnership with [wc3stats](https://wc3stats.com) and utilizes their [api](https://wiki.wc3stats.com/Help:API).
 
+There is a version of this bot up and running already. If you want your map and discord channel to be serviced by it you can reach out to [Pinzu@discord](https://discordapp.com/invite/N3VGkUM). 
+
 # Features
 
 * Automatically upload posted replay files to wc3stats.com.
@@ -17,7 +19,9 @@ This discord bot is made in partnership with [wc3stats](https://wc3stats.com) an
 
 
 
-# Running the Bot
+# Installing & running the bot
 
-* Dependencies -- npm install
-* Running -- npm run start
+Make sure you have node.js and npm installed. Then open a terminal in the project directory and execute the following commands: 
+
+    npm install
+    npm run start

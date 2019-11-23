@@ -13,6 +13,7 @@
   "author": "Tiago Redaelli",
   "license": "ISC",
   "dependencies": {
+    "dateformat": "^3.0.3",
     "discord.js": "^11.5.1",
     "djs-commands": "^1.2.2",
     "node-fetch": "^2.6.0",
