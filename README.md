@@ -5,7 +5,7 @@ There is a version of this bot up and running already. If you want your map and 
 # Features
 
 * Automatically upload posted replay files to wc3stats.com.
-* Query scoreboards, replays and stats from wc3stats.com
+* Query scoreboards, replays, stats and last played games from wc3stats.com
 
 # Discord Setup
 
