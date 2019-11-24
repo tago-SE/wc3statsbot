@@ -29,9 +29,6 @@ module.exports = class ReplayCommand {
                 msg.channel.send(MessageUtils.error("Invalid replay id {" + args[0] + "}"));
                 return;
             }
-    
-
-
             var [result, replay] = await Promise.all([
                 wc3stats.fetchResultById(id), 
                 wc3stats.fetchReplayById(id) 

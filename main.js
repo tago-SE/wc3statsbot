@@ -6,6 +6,8 @@ const { CommandHandler } = require('djs-commands');
 const config = require('./config.json');
 const MessageUtils = require("./utils/messageutils");
 const wc3stats = require("./controllers/wc3stats");
+const UploadManager = require("./upload-manager");
+
 const CH = new CommandHandler({
     folder: __dirname + "/commands/",
     prefix: config.prefix
@@ -30,22 +32,11 @@ client.on('message', msg => {
     const args = msg.content.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
+
+
     // Handle uploaded files
-    if (msg.attachments.size > 0) {
-        let attached = msg.attachments.array()[0];
-        let fname = attached.filename;
-        if (fname.substring(fname.length - 4, fname.length) !== ".w3g") { 
-            if (config.attachementShowError) {
-                msg.channel.send(MessageUtils.error("Invalid file format. Can only read w3g files."));
-            }
-        } else {
-            wc3stats.postReplayAttachment(attached)
-            .then(json => {
-                const ReplayCommand = require('./commands/replay');
-                new ReplayCommand().run(client, msg, [json.body.id]); 
-            });
-            msg.delete();
-        }
+    if (msg.attachments.size > 0) {     
+        UploadManager.handleUploadedFile(client, msg);
     }
 
     // Ignore none command messages 

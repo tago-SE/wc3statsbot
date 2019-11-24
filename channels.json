@@ -1,1 +1,7 @@
-[{"id":"639213697440415745","map":"Broken Alliances","season":"Season 1"}]
+[
+    {"id":"639213697440415745","map":"Risk Reforged","season":"Season 2"},
+    {"id":"639228460253839391","map":"Broken Alliances","season":"Season 1"},
+    {"id":"608765445872549898","map":"Risk Reforged","season":"Season 2", "comment": "Saran"},
+    {"id":"644894404599087115","map":"Risk Reforged","season":"Season 2", "comment": "Nod"}
+
+]
