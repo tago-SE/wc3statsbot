@@ -30,7 +30,7 @@ module.exports = class CommandsCommand {
                     throw new Error('No commands to load!');
         
                 const embed = new Discord.RichEmbed()
-                    .setColor(config.embedcolor)
+                    .setColor(channelConfig.color? channelConfig.color : config.embedcolor)
                     .setTitle("Commands")
                     .setDescription("Optional argument are denoted by () and required arguments are denoted by []. View admin commands: \"" + config.prefix + "commands -a\".");
         

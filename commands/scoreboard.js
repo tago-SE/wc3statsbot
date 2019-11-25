@@ -69,7 +69,7 @@ module.exports = class ScoreboardCommand {
                         .setTitle(title)
                         .setURL("https://wc3stats.com/" +  args.join('-') + "/leaderboard")
                         .setDescription(season)
-                        .setColor(config.embedcolor)
+                        .setColor(channelConfig.color? channelConfig.color : config.embedcolor)
                         .addField("Player", names, true)
                         .addField("Score", winLossRatios, true)
                         .addField("Rating", ratings, true); 

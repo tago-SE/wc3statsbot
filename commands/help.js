@@ -14,10 +14,10 @@ module.exports = class CommandsCommand {
     run(client, msg, args) {
         (async () => {            
             try {
-                var result = await ChannelsManager.asyncGetChannel(msg.channel.id);
-                if (result) {
+                var channelConfig = await ChannelsManager.asyncGetChannel(msg.channel.id);
+                if (channelConfig) {
                     msg.channel.send(new Discord.RichEmbed()
-                        .setColor(config.embedcolor)
+                        .setColor(channelConfig.color? channelConfig.color : config.embedcolor)
                         .setTitle("Help")
                         .addField("Participation", "To participate in the league you must attach your replays in this channel or upload them " +
                         "directly to https://wc3stats.com/upload.")

@@ -42,6 +42,7 @@ module.exports = class ChannelsManager {
                         channels[i].map = channel.map;
                         channels[i].season = channel.season;
                         channels[i].footer = channel.footer;
+                        channels[i].color = channel.color;
                         fs.writeFileSync('channels.json', JSON.stringify(channels));
                         //console.log("ChannelsManager_asynUpsertChannel: updated channel: " + channel_id);
                         resolve(channels[i]);
@@ -53,7 +54,8 @@ module.exports = class ChannelsManager {
                     "id": channel_id,
                     "map": channel.map,
                     "season": channel.season,
-                    "footer": channel.footer
+                    "footer": channel.footer,
+                    "color": channel.color
                 }
                 channels.push(newChannel);
                 fs.writeFileSync('channels.json', JSON.stringify(channels));

@@ -57,7 +57,7 @@ module.exports = class GamesCommand {
                     dates += dateFormat(new Date(replay.playedOn*1000), "d/m/yyyy") + "\n";
                 }
                 msg.channel.send(new Discord.RichEmbed()
-                .setColor(config.embedcolor)
+                .setColor(channelConfig.color? channelConfig.color : config.embedcolor)
                 .setTitle(username)
                 .addField('Replay', ids, true)
                 //.addField('Result', results, true)

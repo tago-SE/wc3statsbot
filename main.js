@@ -13,15 +13,22 @@ const CH = new CommandHandler({
     prefix: config.prefix
 });
 
-
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
+    // Initialize color emojis
+    const ColorManager = require("./color-manager");
+    ColorManager.init(client);
 });
 
 client.on('message', msg => {
     
     if (msg.author.bot)  
         return;
+
+    // Handle uploaded files
+    if (msg.attachments.size > 0) {     
+        UploadManager.handleUploadedFile(client, msg);
+    }
 
     // Handle command
    
@@ -31,13 +38,6 @@ client.on('message', msg => {
     // args = ["Is", "this", "the", "real", "life?"]
     const args = msg.content.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
-
-
-
-    // Handle uploaded files
-    if (msg.attachments.size > 0) {     
-        UploadManager.handleUploadedFile(client, msg);
-    }
 
     // Ignore none command messages 
     if (msg.content.indexOf(config.prefix) !== 0) return
@@ -49,8 +49,8 @@ client.on('message', msg => {
     try {
         console.log("command: " + command + ", args: " + args);
         foundCommand.run(client, msg, args);
-    } catch (e) {
-        console.log(e);
+    } catch (err) {
+        console.log(err);
     }
 });
 

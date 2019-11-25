@@ -5,6 +5,8 @@ const MessageUtils = require("../utils/messageutils");
 const CommandUtils = require("../utils/commandutils");
 const ChannelsManager = require("../channels-manager");
 
+const ColorManager = require("../color-manager");
+
 module.exports = class ReplayCommand {
 
     constructor() {
@@ -41,12 +43,13 @@ module.exports = class ReplayCommand {
             var playerStr = "";
             var changeStr = "";
             var ratingStr = "";
-        
+    
             for (var i = 0; i < result.teams.length; i++) {
                 var team = result.teams[i];
                 for (var j = 0; j < team.players.length; j++) {
                     var player = team.players[j];
-                    playerStr += player.placement + ". " + player.name + " (" + player.apm + ")\n";  
+                    var colorEmoji = ColorManager.getClinetColorEmoji(client, player.colour);
+                    playerStr += ((colorEmoji)? colorEmoji + " " : "") + player.placement + ". " + player.name + " (" + player.apm + ")\n";  
                     changeStr += ((player.change > 0)? "+": "") + player.change +"\n";
                     ratingStr += player.rating + "\n";
                 }
@@ -58,10 +61,11 @@ module.exports = class ReplayCommand {
             var timeInSeconds = replay.length
             var gameDuration = new Date(null, null, null, null, null, timeInSeconds).toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
             var mapRequest = result.key.map.split(' ').join('-').toLowerCase();
+
             const embdedResult = new Discord.RichEmbed()
-                .setColor(config.embedcolor)
+                .setColor(channelConfig.color? channelConfig.color : config.embedcolor)
                 .setTitle(title)
-                .setDescription("[" + description + "](" + "https://wc3stats.com/" + mapRequest + "/leaderboard)")
+                .setDescription("[" + description + "](" + "https://wc3stats.com/" + mapRequest + "/leaderboard) ")
                 .setURL('https://wc3stats.com/games/' + result.replayId)
                 .addField('Player', playerStr, true)
                 .addField('Change', changeStr, true)
@@ -69,7 +73,6 @@ module.exports = class ReplayCommand {
                 .setTimestamp(new Date(timestamp))
                 .setFooter(gameDuration, channelConfig.footer);
             msg.channel.send(embdedResult);  
-            
         })();
     }
 }

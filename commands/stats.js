@@ -60,7 +60,7 @@ module.exports = class StatsCommand {
                 ratio += (MathUtils.ratio(stats.wins, stats.losses + stats.wins)*100).toFixed(1) + "%\n";
             }
             var embed = new Discord.RichEmbed()
-                .setColor(config.embedcolor)
+                .setColor(channelConfig.color? channelConfig.color : config.embedcolor)
                 .setTitle(displayName)
                 .setURL('https://wc3stats.com/players/' + username)
                 .addField('Mode', modeStr, true)
