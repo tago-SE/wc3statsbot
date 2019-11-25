@@ -24,9 +24,7 @@ client.on('message', msg => {
     
     if (msg.author.bot)  
         return;
-
-    console.log("channel: " + msg.guild);
-
+        
     // Handle uploaded files
     if (msg.attachments.size > 0) {     
         UploadManager.handleUploadedFile(client, msg);

@@ -1,5 +1,4 @@
 const fs = require('fs');
-const request = require('request-promise');
 
 module.exports = class ChannelsManager {
 
