@@ -16,7 +16,9 @@ module.exports = class UploadManager {
                 .then(json => {
                     new ReplayCommand().run(client, msg, [json.body.id]); 
                 });
-                msg.delete();
+                if (msg.member.guild.me.hasPermission("MANAGE_MESSAGES")) {
+                    msg.delete();
+                }
             }
         } catch (err) {
             console.log(err);
