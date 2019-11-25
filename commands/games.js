@@ -24,7 +24,7 @@ module.exports = class GamesCommand {
         this.name = 'games'
         this.alias = ['g']
         this.usage = this.name + " (player) (-map ['name']) (-season [index]) (-mode [name])";
-        this.desc = 'Lists the most recent games.'
+        this.desc = 'Last played games by a specified player.'
     }
 
     run(client, msg, args) {

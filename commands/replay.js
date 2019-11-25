@@ -13,7 +13,7 @@ module.exports = class ReplayCommand {
         this.name = 'replay'
         this.alias = ['rep']
         this.usage = this.name + " [id]";
-        this.desc = 'Reveals data from a uploaded replay.'
+        this.desc = 'Replay information.'
     }
 
     run(client, msg, args) {

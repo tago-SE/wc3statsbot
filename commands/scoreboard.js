@@ -23,7 +23,7 @@ module.exports = class ScoreboardCommand {
         this.name = 'scoreboard'
         this.alias = ['sb']
         this.usage = this.name + " (rank) (-season [index]) (-map 'name') (-mode [name])";
-        this.desc = 'Shows player ranking starting from the provided number.'
+        this.desc = 'Player rankings starting from speicifed rank.'
     }
 
     run(client, msg, args) {

@@ -9,7 +9,7 @@ module.exports = class CommandsCommand {
         this.name = 'commands'
         this.alias = ['cmd']
         this.usage = this.name
-        this.desc = "Reveal bot commands."
+        this.desc = "Bot commands."
     }
 
     run(client, msg, args) {
@@ -32,7 +32,7 @@ module.exports = class CommandsCommand {
                 const embed = new Discord.RichEmbed()
                     .setColor(channelConfig.color? channelConfig.color : config.embedcolor)
                     .setTitle("Commands")
-                    .setDescription("Optional argument are denoted by () and required arguments are denoted by []. View admin commands: \"" + config.prefix + "commands -a\".");
+                    .setDescription("Optional argument are denoted by () and required arguments are denoted by []. View admin commands: \'" + config.prefix + " commands -a\'.");
         
                 const prefix = config.prefix;
                 var showAdminCommands = args.length > 0 && args[0].toLowerCase() == "-a";
@@ -45,9 +45,10 @@ module.exports = class CommandsCommand {
                             embed.addField(prefix + cmd.usage, cmd.desc + "\n");
                     }   
                 }
-                msg.delete();
-                msg.channel.send(embed);   
-                
+                if (msg.member.guild.me.hasPermission("MANAGE_MESSAGES")) {
+                    msg.delete();
+                }
+                msg.channel.send(embed);    
             } catch (err) {
                 console.log(err);
             }
