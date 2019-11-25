@@ -18,7 +18,7 @@ module.exports = class SetupChannelCommand {
         if (!msg.member.hasPermission("ADMINISTRATOR")) {
             return;
         }
-        
+
         var map = CommandUtils.getMapFromArgs(args); 
         var season = CommandUtils.getSeasonFromArgs(args);
         var footer = CommandUtils.getArgAfterKey(args, "-footer");
@@ -38,7 +38,7 @@ module.exports = class SetupChannelCommand {
                 if (color != null) 
                     result.color = color;
                 if (footer != null || map != null || season != null || color != null)
-                    result = await ChannelsManager.asynUpsertChannel(msg.channel.id, result);
+                    result = await ChannelsManager.asynUpsertChannel(msg.channel, result);
                 msg.channel.send(MessageUtils.system(
                     "Settings { id: " + result.id + ", " +
                     "map: " +  ((result.map !== 'undefined' && result.map)? "\"" + result.map + "\"" : "undefined") + ", " +

@@ -30,19 +30,20 @@ module.exports = class ChannelsManager {
      * @param {String} channel_id
      * @param {JSON} channel JSON object containing map, season and footer references. 
      */
-    static async asynUpsertChannel(channel_id, channel) {
+    static async asynUpsertChannel(channel, settings) {
         return await new Promise((resolve, reject) => {
             fs.readFile('channels.json', (err, data) => {
                 if (err) 
                     reject(err);   
                 let channels = JSON.parse(data);
                 for (var i = 0; i < channels.length; i++) {
-                    if (channels[i].id === channel_id) {
+                    if (channels[i].id === channel.id) {
                         // Update 
-                        channels[i].map = channel.map;
-                        channels[i].season = channel.season;
-                        channels[i].footer = channel.footer;
-                        channels[i].color = channel.color;
+                        channels[i].guild = channel.guild.name;
+                        channels[i].map = settings.map;
+                        channels[i].season = settings.season;
+                        channels[i].footer = settings.footer;
+                        channels[i].color = settings.color;
                         fs.writeFileSync('channels.json', JSON.stringify(channels));
                         //console.log("ChannelsManager_asynUpsertChannel: updated channel: " + channel_id);
                         resolve(channels[i]);
@@ -51,11 +52,12 @@ module.exports = class ChannelsManager {
                 }
                 // Insert 
                 let newChannel = {
-                    "id": channel_id,
-                    "map": channel.map,
-                    "season": channel.season,
-                    "footer": channel.footer,
-                    "color": channel.color
+                    "id": channel.id,
+                    "guild": channel.guild.name,
+                    "map": settings.map,
+                    "season": settings.season,
+                    "footer": settings.footer,
+                    "color": settings.color
                 }
                 channels.push(newChannel);
                 fs.writeFileSync('channels.json', JSON.stringify(channels));

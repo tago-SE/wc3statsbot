@@ -1,4 +1,3 @@
-const CommandUtils = require("../../utils/commandutils");
 const ChannelsManager = require("../../channels-manager");
 const MessageUtils = require("../../utils/messageutils");
 

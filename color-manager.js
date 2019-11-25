@@ -15,7 +15,7 @@ module.exports = class ColorManager {
             "maroon", "navy", "turquoise", "violet", 
             "wheat", "peach", "mint", "lavender",
             "coal", "snow", "emerald", "peanut"
-        ]
+        ];
         var i = 0;
         try {
             for ( ; i < colorTags.length; i++) {
@@ -27,7 +27,7 @@ module.exports = class ColorManager {
         }
     }   
 
-    static getClinetColorEmoji(client, index) {
+    static getClinetColorEmoji(index) {
         return colors[index];
     }
 
