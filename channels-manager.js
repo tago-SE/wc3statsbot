@@ -1,6 +1,25 @@
 const fs = require('fs');
 
+// Cache
+var channels = [];
+
 module.exports = class ChannelsManager {
+
+    static async asyncGetChannels() {
+        return await new Promise((resolve, reject) => {
+            if (channels.length == 0) {
+                fs.readFile('channels.json', (err, data) => {
+                    if (err) 
+                        reject(err);   
+                    console.log("ChannelsManager.loaded from channels.json.");
+                    channels = JSON.parse(data);
+                    resolve(channels);
+                }); 
+            } else {
+                resolve(channels);
+            }
+        });
+    }
 
     /**
      * Gets channel configuration by matching id
@@ -8,19 +27,13 @@ module.exports = class ChannelsManager {
      * @param {String} channel_id 
      */
     static async asyncGetChannel(channel_id) {
-        return await new Promise((resolve, reject) => {
-            fs.readFile('channels.json', (err, data) => {
-                if (err) 
-                    reject(err);   
-                let channels = JSON.parse(data);
-                for (var i = 0; i < channels.length; i++) {
-                    if (channels[i].id === channel_id) {
-                        resolve(channels[i]);
-                    }
-                }
-                resolve(null);
-            }); 
-        });
+        channels = await ChannelsManager.asyncGetChannels();
+        for (var i = 0; i < channels.length; i++) {
+            if (channels[i].id === channel_id) {
+                return channels[i];
+            }
+        }
+        return null;
     }
 
     /**
@@ -31,38 +44,31 @@ module.exports = class ChannelsManager {
      */
     static async asynUpsertChannel(channel, settings) {
         return await new Promise((resolve, reject) => {
-            fs.readFile('channels.json', (err, data) => {
-                if (err) 
-                    reject(err);   
-                let channels = JSON.parse(data);
-                for (var i = 0; i < channels.length; i++) {
-                    if (channels[i].id === channel.id) {
-                        // Update 
-                        channels[i].guild = channel.guild.name;
-                        channels[i].map = settings.map;
-                        channels[i].season = settings.season;
-                        channels[i].footer = settings.footer;
-                        channels[i].color = settings.color;
-                        fs.writeFileSync('channels.json', JSON.stringify(channels));
-                        //console.log("ChannelsManager_asynUpsertChannel: updated channel: " + channel_id);
-                        resolve(channels[i]);
-                        return;
-                    }
+            for (var i = 0; i < channels.length; i++) {
+                if (channels[i].id === channel.id) {
+                    // Update 
+                    channels[i].guild = channel.guild.name;
+                    channels[i].map = settings.map;
+                    channels[i].season = settings.season;
+                    channels[i].footer = settings.footer;
+                    channels[i].color = settings.color;
+                    fs.writeFileSync('channels.json', JSON.stringify(channels));
+                    resolve(channels[i]);
+                    return;
                 }
-                // Insert 
-                let newChannel = {
-                    "id": channel.id,
-                    "guild": channel.guild.name,
-                    "map": settings.map,
-                    "season": settings.season,
-                    "footer": settings.footer,
-                    "color": settings.color
-                }
-                channels.push(newChannel);
-                fs.writeFileSync('channels.json', JSON.stringify(channels));
-                //console.log("ChannelsManager_asynUpsertChannel: inserted channel: " + channel_id);
-                resolve(newChannel);
-            }); 
+            }
+            // Insert
+            let newChannel = {
+                "id": channel.id,
+                "guild": channel.guild.name,
+                "map": settings.map,
+                "season": settings.season,
+                "footer": settings.footer,
+                "color": settings.color
+            }
+            channels.push(newChannel);
+            fs.writeFileSync('channels.json', JSON.stringify(channels));
+            resolve(newChannel);
         });
     }
 
@@ -72,21 +78,13 @@ module.exports = class ChannelsManager {
      * @param {String} channel_id
      */
     static async asyncRemoveChannel(channel_id) {
-        return await new Promise((resolve, reject) => {
-            fs.readFile('channels.json', (err, data) => {
-                if (err) 
-                    reject(err);   
-                let channels = JSON.parse(data);
-                for (var i = 0; i < channels.length; i++) {
-                    if (channels[i].id === channel_id) {
-                        channels.splice(i, 1);
-                        fs.writeFileSync('channels.json', JSON.stringify(channels));
-                        resolve(true);
-                        return;
-                    }
-                }
-                resolve(false);
-            }); 
-        });
+        for (var i = 0; i < channels.length; i++) {
+            if (channels[i].id === channel_id) {
+                channels.splice(i, 1);
+                fs.writeFileSync('channels.json', JSON.stringify(channels));
+                return true;
+            }
+        }
+        return false;
     }
 }
