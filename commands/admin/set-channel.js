@@ -8,7 +8,7 @@ module.exports = class SetupChannelCommand {
         this.name = 'set'
         this.alias = ['set']
         this.usage = this.name
-        this.usage = this.name + " (-map ['name']) (-season [index]) (-footer [image-reference])"
+        this.usage = this.name + " (-map ['name']) (-season [index]) (-footer [image-reference]) (-color [#ff00ff])"
         this.desc = "Configure bot settings on the targeted channel."
         this.adminCommand = true
     }
