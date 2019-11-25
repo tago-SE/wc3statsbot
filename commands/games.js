@@ -23,7 +23,7 @@ module.exports = class GamesCommand {
     constructor() {
         this.name = 'games'
         this.alias = ['g']
-        this.usage = this.name + " (player)";
+        this.usage = this.name + " (player) (-map ['name']) (-season [index]) (-mode [name])";
         this.desc = 'Lists the most recent games.'
     }
 
@@ -34,33 +34,50 @@ module.exports = class GamesCommand {
                 if (channelConfig == null)
                     return;
 
+                var mode = CommandUtils.getModeFromArgs(args);  // can be null
+
                 var mapName = CommandUtils.getMapFromArgs(args);
                 if (mapName == null)
                     mapName = channelConfig.map;
 
                 var season = CommandUtils.getSeasonFromArgs(args);
                 if (season == null) 
-                    season =channelConfig.season;
+                    season = channelConfig.season;
                 
                 var username = getCommandPlayerName(msg, args);
 
-                var replays = await wc3stats.fetchUserGamesByMapSeasonMode(username, mapName, season);
+                var replays = await wc3stats.fetchUserGamesByMapSeasonMode(username, mapName, season, mode);
                 if (replays === "No results found.") {
-                    msg.channel.send(MessageUtils.error("No results found for {" + username + ", " + mapName + ", " + season + "}."));
+                    msg.channel.send(MessageUtils.error("No results found for {" + username + ", " + mapName + ", " + season + ", " + mode + "}."));
                     return;
                 }
+
+                var foundGameName = false;
                 var ids = "";
                 var dates = "";
+                var results = "";
                 for (var i = replays.length - 1; i >= 0; i--) {
                     let replay = replays[i];
-                    ids += "[#" + replay.id + "](" + "https://wc3stats.com/games/" + replay.id + ")\n";
+                    // In game name is extracted from the first replay
+                    if (!foundGameName) {
+                        for (var j = 0; j < replay.players.length; j++) {
+                            if (replay.players[j].name.toLowerCase() === username) {
+                                username = replay.players[j].name;
+                                foundGameName = true;
+                                break;
+                            }
+                        }
+                    }
+                    ids += "[#" + replay.id + " " + replay.map + " | " + replay.mode +"](" + "https://wc3stats.com/games/" + replay.id + ")\n";
+                    results += (replay.isWinner? "Won" : "Lost") + "\n";
                     dates += dateFormat(new Date(replay.playedOn*1000), "d/m/yyyy") + "\n";
                 }
                 msg.channel.send(new Discord.RichEmbed()
                 .setColor(channelConfig.color? channelConfig.color : config.embedcolor)
                 .setTitle(username)
+                .setURL("https://wc3stats.com/players/" + username)
                 .addField('Replay', ids, true)
-                //.addField('Result', results, true)
+                .addField('Result', results, true)
                 .addField('Date', dates, true));
             } catch (err) {
                 console.log(err);
