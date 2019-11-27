@@ -68,8 +68,11 @@ module.exports = class GamesCommand {
                             }
                         }
                     }
-                    ids += "[#" + replay.id + " " + replay.map + " | " + replay.mode +"](" + "https://wc3stats.com/games/" + replay.id + ")\n";
-                    results += (replay.isWinner? "Won" : "Lost") + "\n";
+                    ids += "[#" + replay.id + " " + replay.map + " | " + ((replay.mode)? replay.mode : "N/A") +"](" + "https://wc3stats.com/games/" + replay.id + ")\n";
+                    if (replay.mode) 
+                        results += ((replay.isWinner)? "Won" : "Lost") + "\n";
+                    else 
+                        results += "N/A\n";
                     dates += dateFormat(new Date(replay.playedOn*1000), "d/m/yyyy") + "\n";
                 }
                 msg.channel.send(new Discord.RichEmbed()

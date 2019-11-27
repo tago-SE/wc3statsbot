@@ -11,7 +11,7 @@ module.exports = class ChannelsManager {
                 fs.readFile('channels.json', (err, data) => {
                     if (err) 
                         reject(err);   
-                    console.log("ChannelsManager.loaded from channels.json.");
+                    console.log("ChannelsManager: loaded from channels.json.");
                     channels = JSON.parse(data);
                     resolve(channels);
                 }); 
