@@ -7,6 +7,9 @@ const MessageUtils = require("../utils/messageutils");
 const CommandUtils = require("../utils/commandutils");
 const ChannelsManager = require("../channels-manager");
 
+const MAX_GAMES_DISPLAYED = 16;
+
+
 function getCommandPlayerName(msg, args) {
     if (args.length > 0) {
         return args[0].toLowerCase();
@@ -56,7 +59,8 @@ module.exports = class GamesCommand {
                 var ids = "";
                 var dates = "";
                 var results = "";
-                for (var i = replays.length - 1; i >= 0; i--) {
+
+                for (var i = replays.length - 1; i >= 0 && i >= replays.length - MAX_GAMES_DISPLAYED; i--) {
                     let replay = replays[i];
                     // In game name is extracted from the first replay
                     if (!foundGameName) {
@@ -75,6 +79,7 @@ module.exports = class GamesCommand {
                         results += "N/A\n";
                     dates += dateFormat(new Date(replay.playedOn*1000), "d/m/yyyy") + "\n";
                 }
+                
                 msg.channel.send(new Discord.RichEmbed()
                 .setColor(channelConfig.color? channelConfig.color : config.embedcolor)
                 .setTitle(username)
