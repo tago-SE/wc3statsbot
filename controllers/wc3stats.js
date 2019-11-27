@@ -1,16 +1,6 @@
 const fetch = require('node-fetch');
 const request = require('request-promise');
 
-function createMapRequest(map) {
-    var mapArgs = map.split(' ')
-    var mapRequest = "";
-    for (var i = 0; i < mapArgs.length - 1; i++) {
-        mapRequest += mapArgs[i] + "%20";
-    }
-    mapRequest += mapArgs[mapArgs.length -1];
-    return mapRequest;
-}
-
 module.exports = class UsersController {
 
     static postReplayAttachment(attachment) {
@@ -101,8 +91,7 @@ module.exports = class UsersController {
     }
 
     static fetchTopRankedUsersByMap(map, numUsers, season, mode) {
-        var mapRequest = createMapRequest(map);
-        const url = "https://api.wc3stats.com/leaderboard&map=" + mapRequest + 
+        const url = "https://api.wc3stats.com/leaderboard&map=" + map + 
             "&ladder=Public&season=Season%201&round=Global&sort=rank&order=asc&page=1&limit=" + numUsers  + 
             '&season=' + season + ((mode == null)? '' : '&mode=' + mode);
         return new Promise(function (resolve, reject) {
