@@ -1,23 +1,24 @@
+# Wc3Stats Discord-Bot 
 This discord bot is made in partnership with [wc3stats](https://wc3stats.com) and utilizes their [api](https://wiki.wc3stats.com/Help:API).
 
 There is a version of this bot up and running already. If you want your map and discord channel to be serviced by it you can reach out to [Pinzu@discord](https://discordapp.com/invite/N3VGkUM). 
 
-# Features
+## Features
 
 * Automatically upload posted replay files to wc3stats.com.
 * Query scoreboards, replays, stats and last played games from wc3stats.com
 
-# Discord Setup
+## Discord Setup
 
     https://www.digitaltrends.com/gaming/how-to-make-a-discord-bot/
 
-# Configuration 
+## Configuration 
 
 1) Change the filename of '.secretTemplate.json' to '.secret.json' and insert your discord bot token. 
 
 2) You can edit the settings inside the config.json file. 
 
-# Linux Installation & Run 
+## Linux Installation & Run 
 
 1. Open the command prompt inside the root folder where the bot source code is stored (you should see main.js) and install the dependencies with the following command: 
 
@@ -34,7 +35,7 @@ There is a version of this bot up and running already. If you want your map and 
     node main.js 
     npm start
 
-# Making the bot a service on ubuntu
+## Making the bot a service on ubuntu
 
 1. goto /etc/systemd/system/
 2. create a text tile, named as "name.service" where name is what you'd like the bot to be named
@@ -46,7 +47,8 @@ There is a version of this bot up and running already. If you want your map and 
     ExecStart=/var/www/myapp/app.js
     Restart=always
     User=nobody
-    # Note Debian/Ubuntu uses 'nogroup', RHEL/Fedora uses 'nobody'
+    
+    ### Note Debian/Ubuntu uses 'nogroup', RHEL/Fedora uses 'nobody'
     Group=nogroup
     Environment=PATH=/usr/bin:/usr/local/bin
     Environment=NODE_ENV=production
