@@ -44,7 +44,7 @@ module.exports = class ChannelsManager {
       * @param {*} channel  JSON object containing the old channel.
       * @param {*} settings JSON object containing the new channel settings. 
       */
-    static async asynUpsertChannel(channel, settings) {
+    static async asyncUpsertChannel(channel, settings) {
         return await new Promise((resolve, reject) => {
             for (var i = 0; i < channels.length; i++) {
                 if (channels[i].id === channel.id) {
