@@ -24,13 +24,9 @@ There is a version of this bot up and running already. If you want your map and 
 
     npm install
 
-2. A known issue is that some dependencies might not be installed correctly, if so you will have to do that yourself, example:
+2. Now you need to give the bot the necessary permissions (or if lazy, and dont care about security type. "chmod 777 -R /path/to/folder/*")
 
-    npm install dateformat --save
-
-3. Now you need to give the bot the necessary permissions (or if lazy, and dont care about security type. "chmod 777 -R /path/to/folder/*")
-
-4. To run the bot go to the folder and type one of the following commands
+3. To run the bot go to the folder and type one of the following commands
 
     node main.js 
     npm start
