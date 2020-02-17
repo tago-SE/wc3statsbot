@@ -3,6 +3,7 @@ const request = require('request-promise');
 
 module.exports = class UsersController {
 
+    
     static postReplayAttachment(attachment) {
         return new Promise(function (resolve, reject) {
             let formData = {
@@ -17,6 +18,7 @@ module.exports = class UsersController {
             }); 
         });
     }
+
 
     static fetchReplayById(id) {
         return new Promise(function (resolve, reject) {
@@ -36,6 +38,7 @@ module.exports = class UsersController {
         });
     }
 
+
     static fetchResultById(id) {
         return new Promise(function (resolve, reject) {
             fetch(`https://api.wc3stats.com/results/` + id)
@@ -53,6 +56,7 @@ module.exports = class UsersController {
             });
         });
     }
+
 
     static fetchUserProfileByMap(map, username, season) {
         return new Promise(function (resolve, reject) {
@@ -72,6 +76,7 @@ module.exports = class UsersController {
         });
     }
 
+
     static fetchUserStatsByIdAndMap(id, map, username, season) {
         return new Promise(function (resolve, reject) {
             fetch('https://api.wc3stats.com/profiles/' + username + '/' + id + '&map=' + map + '&season=' + season)
@@ -89,6 +94,7 @@ module.exports = class UsersController {
             });
         });
     }
+
 
     static fetchTopRankedUsersByMap(map, numUsers, season, mode) {
         const url = "https://api.wc3stats.com/leaderboard&map=" + map + 
@@ -111,6 +117,7 @@ module.exports = class UsersController {
         });
     }
 
+
     static fetchUserGamesByMapSeasonMode(username, map, season, mode) {
         var url = 'https://api.wc3stats.com/replays'  +
             '&map=' + map + 
@@ -132,4 +139,25 @@ module.exports = class UsersController {
             });
         });
     }
+
+
+    static fetchGameList() {
+        var url = 'https://api.wc3stats.com/gamelist';
+        return new Promise(function (resolve, reject) {
+            fetch(url)
+            .then(res => res.json())
+            .then(json => {
+                var body = json.body;
+                if (!body) {
+                    reject(new Error("no body found"));
+                } else {
+                    resolve(body);
+                }
+            }).catch(err => {
+                console.log(err);
+                reject(err);
+            });
+        });
+    }
+
 }

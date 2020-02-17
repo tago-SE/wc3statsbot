@@ -5,13 +5,15 @@ var channels = [];
 
 module.exports = class ChannelsManager {
 
+    /**
+     * Returns a list of all channels configured in the channels file. 
+     */
     static async asyncGetChannels() {
         return await new Promise((resolve, reject) => {
             if (channels.length == 0) {
                 fs.readFile('channels.json', (err, data) => {
                     if (err) 
                         reject(err);   
-                    console.log("ChannelsManager: loaded from channels.json.");
                     channels = JSON.parse(data);
                     resolve(channels);
                 }); 
@@ -36,12 +38,12 @@ module.exports = class ChannelsManager {
         return null;
     }
 
-    /**
-     * Inserts or updates a channel object into the channel file. 
-     * 
-     * @param {String} channel_id
-     * @param {JSON} channel JSON object containing map, season and footer references. 
-     */
+     /**
+      * Inserts or updates a channel object into the channel file. 
+      * 
+      * @param {*} channel  JSON object containing the old channel.
+      * @param {*} settings JSON object containing the new channel settings. 
+      */
     static async asynUpsertChannel(channel, settings) {
         return await new Promise((resolve, reject) => {
             for (var i = 0; i < channels.length; i++) {
@@ -87,4 +89,5 @@ module.exports = class ChannelsManager {
         }
         return false;
     }
+    
 }

@@ -2,11 +2,11 @@ const dateFormat = require('dateformat');
 
 const Discord = require('discord.js');
 
-const wc3stats = require("../controllers/wc3stats");
+const wc3stats = require("../api/wc3stats");
 const config = require('../config.json');
 const MessageUtils = require("../utils/messageutils");
 const CommandUtils = require("../utils/commandutils");
-const ChannelsManager = require("../channels-manager");
+const ChannelsManager = require("../managers/channel-settings-manager");
 
 const MAX_GAMES_DISPLAYED = 16;
 

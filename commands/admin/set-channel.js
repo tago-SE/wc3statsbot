@@ -1,6 +1,8 @@
 const CommandUtils = require("../../utils/commandutils");
-const ChannelsManager = require("../../channels-manager");
+const ChannelsManager = require("../../managers/channel-settings-manager");
 const MessageUtils = require("../../utils/messageutils");
+
+const Permissions = require("../../managers/permission-manager");
 
 module.exports = class SetupChannelCommand {
 
@@ -13,8 +15,7 @@ module.exports = class SetupChannelCommand {
     }
 
     run(client, msg, args) {
-
-        if (!msg.member.hasPermission("ADMINISTRATOR")) {
+        if (!Permissions.hasAdminRights(msg)) {
             return;
         }
 
@@ -37,7 +38,7 @@ module.exports = class SetupChannelCommand {
                 if (color != null) 
                     result.color = color;
                 if (footer != null || map != null || season != null || color != null)
-                    result = await ChannelsManager.asynUpsertChannel(msg.channel, result);
+                    result = await ChannelsManager.asyncUpsertChannel(msg.channel, result);
                 msg.channel.send(MessageUtils.system(
                     "Settings { id: " + result.id + ", " +
                     "map: " +  ((result.map !== 'undefined' && result.map)? "\"" + result.map + "\"" : "undefined") + ", " +

@@ -1,10 +1,10 @@
-const wc3stats = require("../controllers/wc3stats");
+const wc3stats = require("../api/wc3stats");
 const config = require('../config.json');
 const Discord = require('discord.js');
 const MathUtils = require("../utils/mathutils");
 const MessageUtils = require("../utils/messageutils");
 const CommandUtils = require("../utils/commandutils");
-const ChannelsManager = require("../channels-manager");
+const ChannelsManager = require("../managers/channel-settings-manager");
 
 function getCommandPlayerName(msg, args) {
     if (args.length > 0) {

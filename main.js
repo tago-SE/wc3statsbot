@@ -2,11 +2,8 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();   
 const { CommandHandler } = require('djs-commands');
-
 const config = require('./config.json');
-const MessageUtils = require("./utils/messageutils");
-const wc3stats = require("./controllers/wc3stats");
-const UploadManager = require("./upload-manager");
+const UploadManager = require("./managers/upload-manager");
 
 const CH = new CommandHandler({
     folder: __dirname + "/commands/",
@@ -15,9 +12,6 @@ const CH = new CommandHandler({
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    // Initialize color emojis
-    const ColorManager = require("./color-manager");
-    ColorManager.init(client);
 });
 
 client.on('message', msg => {

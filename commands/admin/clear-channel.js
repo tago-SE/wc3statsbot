@@ -1,5 +1,6 @@
-const ChannelsManager = require("../../channels-manager");
+const ChannelsManager = require("../../managers/channel-settings-manager");
 const MessageUtils = require("../../utils/messageutils");
+const Permissions = require("../../managers/permission-manager");
 
 module.exports = class ClearChannelCommand {
 
@@ -12,7 +13,7 @@ module.exports = class ClearChannelCommand {
     }
 
     run(client, msg, args) {
-        if (!msg.member.hasPermission("ADMINISTRATOR")) {
+        if (!Permissions.hasAdminRights(msg)) {
             return;
         }
         (async () => {            
